@@ -224,7 +224,7 @@ function M.pick()
     return
   end
 
-  local target_window = window_keys[key]
+  local target_window_nr = window_keys[key]
   local extra = {}
   local choices = 0
 
@@ -244,23 +244,22 @@ function M.pick()
     if second then
       local combined = key .. second
 
-      target_window = window_keys[combined] or window_keys[key]
+      target_window_nr = window_keys[combined] or window_keys[key]
     else
-      target_window = nil
+      target_window_nr = nil
     end
   end
 
   hide_hints(hints_state, true)
 
-  if target_window then
-    local current_buffer = vim.fn.bufnr()
+  if target_window_nr then
+    local current_buffer_nr = vim.fn.bufnr()
+    local target_buffer_nr = vim.fn.winbufnr(target_window_nr)
+    local target_window_id = vim.fn.win_getid(target_buffer_nr)
 
-    local target_window_id = vim.fn.win_getid(target_window)
-    local target_buffer = vim.fn.winbufnr(target_window)
-
-    vim.cmd("b " .. target_buffer)
+    vim.cmd("b " .. target_buffer_nr)
     vim.fn.win_gotoid(target_window_id)
-    vim.cmd("b " .. current_buffer)
+    vim.cmd("b " .. current_buffer_nr)
   end
 end
 
