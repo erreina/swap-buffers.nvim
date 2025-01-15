@@ -256,7 +256,7 @@ function M.pick()
     local current_buffer = vim.fn.bufnr()
 
     local target_window_id = vim.fn.win_getid(target_window)
-    local target_buffer = vim.fn.bufnr(target_window_id)
+    local target_buffer = vim.fn.winbufnr(target_window)
 
     vim.cmd("b " .. target_buffer)
     vim.fn.win_gotoid(target_window_id)
